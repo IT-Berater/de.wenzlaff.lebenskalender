@@ -19,4 +19,10 @@ public class LebenskalenderTest {
 		Lebenskalender.generate(54, 10, false);
 	}
 
+	@Test
+	public void testGenerateMain() throws Exception {
+		String[] param = { "54", "10", "false" };
+		Lebenskalender.main(param);
+	}
+
 }

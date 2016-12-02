@@ -25,4 +25,16 @@ public class LebenskalenderTest {
 		Lebenskalender.main(param);
 	}
 
+	@Test
+	public void testGenerateMainFehlerZuwenig() throws Exception {
+		String[] param = { "54", "10" };
+		Lebenskalender.main(param);
+	}
+
+	@Test
+	public void testGenerateMainFehlerZuviel() throws Exception {
+		String[] param = { "54", "10", "zuviel", "Parameter" };
+		Lebenskalender.main(param);
+	}
+
 }

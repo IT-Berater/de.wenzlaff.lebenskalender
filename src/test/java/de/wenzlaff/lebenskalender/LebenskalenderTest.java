@@ -43,4 +43,10 @@ public class LebenskalenderTest {
 		Lebenskalender.main(param);
 	}
 
+	@Test
+	public void testGenerateMainKonst() throws Exception {
+
+		new Lebenskalender();
+	}
+
 }

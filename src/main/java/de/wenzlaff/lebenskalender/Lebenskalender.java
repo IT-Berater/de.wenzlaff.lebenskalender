@@ -45,7 +45,7 @@ public final class Lebenskalender {
 	 *             bei Fehler
 	 */
 	public static void main(String[] args) throws Exception {
-		if (args != null && args.length != 3) {
+		if (args == null || args.length != 3) {
 			System.out.println("Programm Aufruf [mit aktuellem Jahr] [Monat] [ob Mann ist dann true]  Z.b für 50 Jahre und 5 Monate als Mann. 50 5 true");
 			return;
 		}

@@ -37,4 +37,10 @@ public class LebenskalenderTest {
 		Lebenskalender.main(param);
 	}
 
+	@Test
+	public void testGenerateMainFehlerNull() throws Exception {
+		String[] param = null;
+		Lebenskalender.main(param);
+	}
+
 }

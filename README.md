@@ -5,3 +5,7 @@
 
 # de.wenzlaff.lebenskalender
 Ein Lebenskalender mit PDF Erzeugung 
+
+Kann von der Kommandozeile aus aufgerufen werden:
+
+

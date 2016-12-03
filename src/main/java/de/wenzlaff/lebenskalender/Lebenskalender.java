@@ -58,13 +58,7 @@ public final class Lebenskalender {
 
 	public static void generate(int aktuellesAlterJahre, int aktuellesAlterMonate, boolean isMann) throws DocumentException, FileNotFoundException {
 
-		int maxLebensalter;
-
-		if (isMann) {
-			maxLebensalter = MAX_LEBENSERWARTUNG_JAHRE_MANN;
-		} else {
-			maxLebensalter = MAX_LEBENSERWARTUNG_JAHRE_FRAU;
-		}
+		int maxLebensalter = getMaxLebensalter(isMann);
 
 		List<String> kalender = new ArrayList<String>();
 
@@ -77,6 +71,7 @@ public final class Lebenskalender {
 	}
 
 	private static List<String> getLebenskalender(int aktuellesAlterJahre, int aktuellesAlterMonate, int maxLebensalter) {
+
 		List<String> kalender = new ArrayList<String>();
 
 		for (int i = 0; i < maxLebensalter; i++) {
@@ -109,6 +104,17 @@ public final class Lebenskalender {
 			kalender.add(jahr);
 		}
 		return kalender;
+	}
+
+	private static int getMaxLebensalter(boolean isMann) {
+		int maxLebensalter;
+
+		if (isMann) {
+			maxLebensalter = MAX_LEBENSERWARTUNG_JAHRE_MANN;
+		} else {
+			maxLebensalter = MAX_LEBENSERWARTUNG_JAHRE_FRAU;
+		}
+		return maxLebensalter;
 	}
 
 	private static String getTitel(int alterJahre, int alterMonate) {

@@ -3,6 +3,7 @@ package de.wenzlaff.lebenskalender;
 import org.junit.Test;
 
 /**
+ * Testklasse für den Lebenskalender.
  * 
  * @author Thomas Wenzlaff
  *
@@ -45,7 +46,6 @@ public class LebenskalenderTest {
 
 	@Test
 	public void testGenerateMainKonst() throws Exception {
-
 		new Lebenskalender();
 	}
 

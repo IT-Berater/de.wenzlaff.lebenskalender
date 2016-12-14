@@ -2,6 +2,7 @@
 [![codecov](https://codecov.io/gh/IT-Berater/de.wenzlaff.lebenskalender/branch/master/graph/badge.svg)](https://codecov.io/gh/IT-Berater/de.wenzlaff.lebenskalender) 
 [![Github Releases](https://img.shields.io/github/downloads/atom/atom/latest/total.svg)](https://github.com/IT-Berater/de.wenzlaff.lebenskalender)
 [![Hex.pm](https://img.shields.io/hexpm/l/plug.svg)](https://github.com/IT-Berater/de.wenzlaff.lebenskalender)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/de.wenzlaff.lebenskalender/de.wenzlaff.lebenskalender/badge.svg)](https://maven-badges.herokuapp.com/maven-central/de.wenzlaff.lebenskalender/de.wenzlaff.lebenskalender)
 
 
 # de.wenzlaff.lebenskalender

@@ -1,15 +1,16 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>de.wenzlaff.lebenskalender</groupId>
-  <artifactId>de.wenzlaff.lebenskalender</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <packaging>jar</packaging>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>de.wenzlaff.lebenskalender</groupId>
+	<artifactId>de.wenzlaff.lebenskalender</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
 
-  <name>Thomas Wenzlaff</name>
-  <description>Pdf Lebenskalender</description>
-  <url>http://www.wenzlaff.info</url>
-  
-  <distributionManagement>
+	<name>Thomas Wenzlaff</name>
+	<description>Pdf Lebenskalender</description>
+	<url>http://www.wenzlaff.info</url>
+
+	<distributionManagement>
 		<snapshotRepository>
 			<id>ossrh</id>
 			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
@@ -18,17 +19,17 @@
 			<id>ossrh</id>
 			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
 		</repository>
-  </distributionManagement>
-  
-  <properties>
+	</distributionManagement>
+
+	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>1.8</java.version>
 		<junit.jupiter.version>5.0.0-M2</junit.jupiter.version>
 		<junit.vintage.version>4.12.0-M2</junit.vintage.version>
 		<junit.platform.version>1.0.0-M2</junit.platform.version>
 	</properties>
-	
-		<licenses>
+
+	<licenses>
 		<license>
 			<name>Apache License, Version 2.0</name>
 			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
@@ -73,33 +74,13 @@
 				</dependencies>
 			</plugin>
 
-<!-- 
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-gpg-plugin</artifactId>
-				<version>1.6</version>
-				<executions>
-					<execution>
-						<id>sign-artifacts</id>
-						<phase>verify</phase>
-						<goals>
-							<goal>sign</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.sonatype.plugins</groupId>
-				<artifactId>nexus-staging-maven-plugin</artifactId>
-				<version>1.6.3</version>
-				<extensions>true</extensions>
-				<configuration>
-					<serverId>ossrh</serverId>
-					<nexusUrl>https://oss.sonatype.org/</nexusUrl>
-					<autoReleaseAfterClose>true</autoReleaseAfterClose>
-				</configuration>
-			</plugin>
- -->
+			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-gpg-plugin</artifactId> 
+				<version>1.6</version> <executions> <execution> <id>sign-artifacts</id> <phase>verify</phase> 
+				<goals> <goal>sign</goal> </goals> </execution> </executions> </plugin> <plugin> 
+				<groupId>org.sonatype.plugins</groupId> <artifactId>nexus-staging-maven-plugin</artifactId> 
+				<version>1.6.3</version> <extensions>true</extensions> <configuration> <serverId>ossrh</serverId> 
+				<nexusUrl>https://oss.sonatype.org/</nexusUrl> <autoReleaseAfterClose>true</autoReleaseAfterClose> 
+				</configuration> </plugin> -->
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -179,15 +160,15 @@
 			</plugin>
 		</plugins>
 	</build>
-	
-  <dependencies>
-  	<dependency>
-  		<groupId>com.lowagie</groupId>
-      <artifactId>itext</artifactId>
-      <version>4.2.0</version>
-  	</dependency>
-  	
-  	<dependency>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.lowagie</groupId>
+			<artifactId>itext</artifactId>
+			<version>4.2.0</version>
+		</dependency>
+
+		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-engine</artifactId>
 			<version>${junit.jupiter.version}</version>
@@ -209,5 +190,5 @@
 			<artifactId>slf4j-log4j12</artifactId>
 			<version>1.7.13</version>
 		</dependency>
-  </dependencies>
+	</dependencies>
 </project>

@@ -176,16 +176,30 @@
 					<check />
 				</configuration>
 			</plugin>
+				<plugin>
+			  <artifactId>maven-dependency-plugin</artifactId>
+			  <version>2.10</version>
+			  <executions>
+			      <execution>
+			          <id>analyze</id>
+			          <goals>
+			              <goal>analyze-only</goal>
+			          </goals>
+			          <configuration>
+			              <failOnWarning>true</failOnWarning>
+			              <outputXML>true</outputXML>
+			              <ignoredDependencies>
+		                    <ignoredDependency>org.junit.jupiter:junit-jupiter-engine</ignoredDependency> 
+		                    <ignoredDependency>org.junit.vintage:junit-vintage-engine</ignoredDependency> 
+		                </ignoredDependencies>
+			          </configuration>
+			      </execution>
+			  </executions>
+			</plugin>
 		</plugins>
 	</build>
 
-	<dependencies>
-		<dependency>
-			<groupId>com.lowagie</groupId>
-			<artifactId>itext</artifactId>
-			<version>4.2.0</version>
-		</dependency>
-
+	<dependencies>		
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-engine</artifactId>
@@ -199,14 +213,15 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<version>1.7.13</version>
+		  <groupId>com.itextpdf</groupId>
+		  <artifactId>itextpdf</artifactId>
+		  <version>5.5.6</version>
 		</dependency>
 		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-log4j12</artifactId>
-			<version>1.7.13</version>
+		  <groupId>junit</groupId>
+		  <artifactId>junit</artifactId>
+		  <version>4.12</version>
+		  <scope>test</scope>
 		</dependency>
 	</dependencies>
 </project>

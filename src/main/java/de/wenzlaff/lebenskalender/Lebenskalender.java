@@ -16,7 +16,6 @@ import com.itextpdf.text.pdf.PdfWriter;
  * Druckt einen Lebenskalender auf System.out und als PDF.
  * 
  * @author Thomas Wenzlaff
- *
  */
 public final class Lebenskalender {
 

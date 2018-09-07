@@ -13,7 +13,7 @@ import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 
 /**
- * Druckt einen Lebenskalender auf System.out und als PDF.
+ * Erzeugt einen Lebenskalender auf System.out und erzeugt eine PDF mit dem Lebenskalender.
  * 
  * @author Thomas Wenzlaff
  */
@@ -36,10 +36,12 @@ public final class Lebenskalender {
 	private static final int WOCHEN_PRO_MONAT = 4;
 
 	/**
-	 * Aufruf der Klasse: [mit aktuellem Jahr] [Monat] [ob Mann ist dann true] Z.b für 50 Jahre und 5 Monate als Mann. 50 5 true
+	 * Aufruf der Klasse: [mit aktuellem Jahr] [Monat] [ob Mann ist dann true] 
+	 * 
+	 * Z.b für 50 Jahre und 5 Monate als Mann. 50 5 true
 	 * 
 	 * @param args
-	 *            drei Argumente, siehe oben
+	 *            drei Argumente, [mit aktuellem Jahr] [Monat] [Mann dann true, Frau dann false]
 	 * @throws Exception
 	 *             bei Fehler
 	 */

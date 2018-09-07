@@ -102,16 +102,20 @@ Jahre                           Wochen
 
           Statistisch also noch: 27 Jahre als Mann zu leben!
 
+```
+
 Installation
 
 Git Repo in ein leeres Verzeichnis clonen:
 git clone https://github.com/IT-Berater/de.wenzlaff.lebenskalender.git
+
+Programm compilieren und bauen:
 mvn clean install
-In das ..target Verzeichnis gehen und das Programm starten:
+
+In das target Verzeichnis gehen und das Programm starten:
 java -jar de.wenzlaff.lebenskalender-0.0.4-SNAPSHOT.jar 54 5 true
 
 
 
 
 
-```

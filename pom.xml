@@ -131,20 +131,6 @@
 							<includeScope>runtime</includeScope>
 							<outputDirectory>${project.build.directory}/lib/</outputDirectory>
 						</configuration>
-					</execution>					
-					<execution>
-						  <id>analyze</id>
-						  <goals>
-						      <goal>analyze-only</goal>
-						  </goals>
-						  <configuration>
-						      <failOnWarning>true</failOnWarning>
-						      <outputXML>true</outputXML>
-						      <ignoredDependencies>
-						    <ignoredDependency>org.junit.jupiter:junit-jupiter-engine</ignoredDependency> 
-						    <ignoredDependency>org.junit.vintage:junit-vintage-engine</ignoredDependency> 
-						</ignoredDependencies>
-						  </configuration>
 					</execution>
 				</executions>
 			</plugin>
@@ -189,6 +175,26 @@
 					</formats>
 					<check />
 				</configuration>
+			</plugin>
+				<plugin>
+			  <artifactId>maven-dependency-plugin</artifactId>
+			  <version>2.10</version>
+			  <executions>
+			      <execution>
+			          <id>analyze</id>
+			          <goals>
+			              <goal>analyze-only</goal>
+			          </goals>
+			          <configuration>
+			              <failOnWarning>true</failOnWarning>
+			              <outputXML>true</outputXML>
+			              <ignoredDependencies>
+		                    <ignoredDependency>org.junit.jupiter:junit-jupiter-engine</ignoredDependency> 
+		                    <ignoredDependency>org.junit.vintage:junit-vintage-engine</ignoredDependency> 
+		                </ignoredDependencies>
+			          </configuration>
+			      </execution>
+			  </executions>
 			</plugin>
 		</plugins>
 	</build>

@@ -6,7 +6,7 @@
 
 
 # de.wenzlaff.lebenskalender
-Ein Lebenskalender mit PDF Erzeugung 
+Ein Lebenskalender mit PDF Erzeugung in Java.
 
 Kann von der Kommandozeile aus aufgerufen werden und erzeugt einen Kalender in der Art:
 

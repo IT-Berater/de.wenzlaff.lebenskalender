@@ -3,8 +3,10 @@ language: java
 sudo: false # faster builds
 
 jdk:
-  - oraclejdk10
+  - oraclejdk8
 
+dist: trusty
+  
 script: 
 
   - mvn clean install

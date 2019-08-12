@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>de.wenzlaff.lebenskalender</groupId>
 	<artifactId>de.wenzlaff.lebenskalender</artifactId>
-	<version>0.0.4</version>
+	<version>0.0.5-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>Thomas Wenzlaff</name>
@@ -73,7 +73,7 @@
 					</dependency>
 				</dependencies>
 			</plugin>
-
+<!-- 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-gpg-plugin</artifactId>
@@ -99,7 +99,7 @@
 					<autoReleaseAfterClose>true</autoReleaseAfterClose>
 				</configuration>
 			</plugin>
-
+ -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>

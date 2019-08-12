@@ -10,6 +10,9 @@ import org.junit.Test;
  */
 public class LebenskalenderTest {
 
+	private static final String TEST_ALTER_MONAT = "8";
+	private static final String TEST_ALTER_JAHRE = "55";
+
 	@Test
 	public void testGenerateMann() throws Exception {
 		Lebenskalender.generate(52, 7, true);
@@ -22,19 +25,19 @@ public class LebenskalenderTest {
 
 	@Test
 	public void testGenerateMain() throws Exception {
-		String[] param = { "54", "10", "false" };
+		String[] param = { TEST_ALTER_JAHRE, TEST_ALTER_MONAT, "false" };
 		Lebenskalender.main(param);
 	}
 
 	@Test
 	public void testGenerateMainFehlerZuwenig() throws Exception {
-		String[] param = { "54", "10" };
+		String[] param = { TEST_ALTER_JAHRE, TEST_ALTER_MONAT };
 		Lebenskalender.main(param);
 	}
 
 	@Test
 	public void testGenerateMainFehlerZuviel() throws Exception {
-		String[] param = { "54", "10", "zuviel", "Parameter" };
+		String[] param = { TEST_ALTER_JAHRE, TEST_ALTER_MONAT, "zuviel", "Parameter" };
 		Lebenskalender.main(param);
 	}
 

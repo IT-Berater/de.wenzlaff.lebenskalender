@@ -1,6 +1,6 @@
 package de.wenzlaff.lebenskalender;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Testklasse für den Lebenskalender.
@@ -15,12 +15,12 @@ public class LebenskalenderTest {
 
 	@Test
 	public void testGenerateMann() throws Exception {
-		Lebenskalender.generate(52, 7, true);
+		Lebenskalender.generate(55, 5, true);
 	}
 
 	@Test
 	public void testGenerateFrau() throws Exception {
-		Lebenskalender.generate(54, 10, false);
+		Lebenskalender.generate(57, 8, false);
 	}
 
 	@Test

@@ -15,7 +15,7 @@ public class LebenskalenderTest {
 
 	@Test
 	public void testGenerateMann() throws Exception {
-		Lebenskalender.generate(55, 5, true);
+		Lebenskalender.generate(55, 8, true);
 	}
 
 	@Test

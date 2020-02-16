@@ -12,15 +12,17 @@ public class LebenskalenderTest {
 
 	private static final String TEST_ALTER_MONAT = "8";
 	private static final String TEST_ALTER_JAHRE = "55";
+	private static final Boolean MANN = true;
+	private static final Boolean FRAU = false;
 
 	@Test
 	public void testGenerateMann() throws Exception {
-		Lebenskalender.generate(55, 8, true);
+		Lebenskalender.generate(55, 8, MANN);
 	}
 
 	@Test
 	public void testGenerateFrau() throws Exception {
-		Lebenskalender.generate(57, 8, false);
+		Lebenskalender.generate(57, 8, FRAU);
 	}
 
 	@Test

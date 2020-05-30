@@ -110,6 +110,7 @@ Git Repo in ein leeres Verzeichnis clonen:
 git clone https://github.com/IT-Berater/de.wenzlaff.lebenskalender.git
 
 Programm compilieren und bauen:
+
 mvn clean install
 
 In das target Verzeichnis gehen und das Programm starten:

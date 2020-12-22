@@ -6,40 +6,38 @@ import org.junit.jupiter.api.Test;
  * Testklasse für den Lebenskalender.
  * 
  * @author Thomas Wenzlaff
- *
  */
 public class LebenskalenderTest {
 
-	private static final String TEST_ALTER_MONAT = "8";
-	private static final String TEST_ALTER_JAHRE = "55";
+	private static final String TEST_GEBURTS_DATUM = "01.01.1990";
 	private static final Boolean MANN = true;
 	private static final Boolean FRAU = false;
 
 	@Test
 	public void testGenerateMann() throws Exception {
-		Lebenskalender.generate(55, 8, MANN);
+		Lebenskalender.generate(TEST_GEBURTS_DATUM, MANN);
 	}
 
 	@Test
 	public void testGenerateFrau() throws Exception {
-		Lebenskalender.generate(57, 8, FRAU);
+		Lebenskalender.generate(TEST_GEBURTS_DATUM, FRAU);
 	}
 
 	@Test
 	public void testGenerateMain() throws Exception {
-		String[] param = { TEST_ALTER_JAHRE, TEST_ALTER_MONAT, "false" };
+		String[] param = { TEST_GEBURTS_DATUM, "false" };
 		Lebenskalender.main(param);
 	}
 
 	@Test
 	public void testGenerateMainFehlerZuwenig() throws Exception {
-		String[] param = { TEST_ALTER_JAHRE, TEST_ALTER_MONAT };
+		String[] param = { TEST_GEBURTS_DATUM };
 		Lebenskalender.main(param);
 	}
 
 	@Test
 	public void testGenerateMainFehlerZuviel() throws Exception {
-		String[] param = { TEST_ALTER_JAHRE, TEST_ALTER_MONAT, "zuviel", "Parameter" };
+		String[] param = { TEST_GEBURTS_DATUM, "zuviel", "Parameter" };
 		Lebenskalender.main(param);
 	}
 
@@ -53,5 +51,4 @@ public class LebenskalenderTest {
 	public void testGenerateMainKonst() throws Exception {
 		new Lebenskalender();
 	}
-
 }

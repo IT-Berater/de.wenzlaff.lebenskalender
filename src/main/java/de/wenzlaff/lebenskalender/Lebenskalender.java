@@ -2,6 +2,8 @@ package de.wenzlaff.lebenskalender;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,57 +15,73 @@ import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 
 /**
- * Erzeugt einen Lebenskalender auf System.out und erzeugt eine PDF mit dem Lebenskalender.
- * 
+ * Erzeugt einen Lebenskalender auf System.out und erzeugt eine PDF mit dem
+ * Lebenskalender.
+ *
  * @author Thomas Wenzlaff
  */
 public final class Lebenskalender {
 
-	// Stand 2015
+	// Stand 2018
 	// https://de.wikipedia.org/wiki/Lebenserwartung#Beispiel_Deutschland
-	// Lebenserwartung Mann in Deutschland 77 Jahre 9 Monate - aufgerundet
+
+	// Lebenserwartung Mann in Deutschland 78 Jahre 5 Monate - aufgerundet
 	private static final int MAX_LEBENSERWARTUNG_JAHRE_MANN = 78;
-	// Lebenserwartung Frau in Deutschland 82 Jahre 10 Monate - aufgerundet
+	private static final int MAX_LEBENSERWARTUNG_MONATE_MANN = 5;
+
+	// Lebenserwartung Frau in Deutschland 83 Jahre 3 Monate - aufgerundet
 	private static final int MAX_LEBENSERWARTUNG_JAHRE_FRAU = 83;
+	private static final int MAX_LEBENSERWARTUNG_MONATE_FRAU = 3;
 
 	private static final String TABULATOR = "        ";
 	private static final String NEUE_ZEILE = "\n\r";
 	private static final String WOCHEN_ZEICHEN_VERGANGEN = "X";
 	private static final String WOCHEN_ZEICHEN_ZUKUNFT = ".";
+
 	/** Die Anzahl der Wochen im Jahr. */
 	private static final int MAX_WOCHEN = 52;
 	/** Wochen pro Monat, abgerundet. */
 	private static final int WOCHEN_PRO_MONAT = 4;
 
 	/**
-	 * Aufruf der Klasse: [mit aktuellem Jahr] [Monat] [ob Mann ist dann true] 
+	 * Aufruf der Klasse: [mit Geburtsdatum in der Form dd.mm.yyyy] [ob Mann ist
+	 * dann true]
 	 * 
-	 * Z.b für 50 Jahre und 5 Monate als Mann. 50 5 true
+	 * Z.b für 01.11.1970 true
 	 * 
-	 * @param args
-	 *            drei Argumente, [mit aktuellem Jahr] [Monat] [Mann dann true, Frau dann false]
-	 * @throws Exception
-	 *             bei Fehler
+	 * für einen Mann der am 1.11.1970 geboren ist
+	 * 
+	 * @param args drei Argumente, [mit Geburtsdatum in der Form dd.mm.yyyy] [Mann
+	 *             dann true, Frau dann false]
+	 * @throws Exception bei Fehler
 	 */
 	public static void main(String[] args) throws Exception {
-		if (args == null || args.length != 3) {
-			System.out.println("Programm Aufruf [mit aktuellem Jahr] [Monat] [ob Mann ist dann true]  Z.b für 50 Jahre und 5 Monate als Mann. 50 5 true");
+		if (args == null || args.length != 2) {
+			System.out.println(
+					"Programm Aufruf [mit Geburtsdatum in der Form dd.mm.yyyy] [ob Mann ist dann true]  Z.b für einen Mann der am 1.11.1970 geboren ist 01.11.1970 true");
 			return;
 		}
-		int aktuelles_alter_in_jahre = Integer.valueOf(args[0]);
-		int aktuelles_alter_in_monate = Integer.valueOf(args[1]);
-		boolean isMann = Boolean.valueOf(args[2]);
+		String gebDatum = args[0];
+		boolean isMann = Boolean.valueOf(args[1]);
 
-		generate(aktuelles_alter_in_jahre, aktuelles_alter_in_monate, isMann);
+		generate(gebDatum, isMann);
 	}
 
-	public static void generate(int aktuellesAlterJahre, int aktuellesAlterMonate, boolean isMann) throws DocumentException, FileNotFoundException {
+	public static void generate(String gebDatum, boolean isMann) throws DocumentException, FileNotFoundException {
 
 		int maxLebensalter = getMaxLebensalter(isMann);
 
-		List<String> kalender = new ArrayList<String>();
+		DateTimeFormatter deFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+		LocalDate heute = LocalDate.now();
 
-		kalender.add(getTitel(aktuellesAlterJahre, aktuellesAlterMonate));
+		List<String> kalender = new ArrayList<>();
+		kalender.add(getTitel(gebDatum, heute.format(deFormatter).toString()));
+
+		LocalDate geburtsDatum = LocalDate.parse(gebDatum, deFormatter);
+
+		int aktuellesAlterJahre = heute.getYear() - geburtsDatum.getYear();
+		int aktuellesAlterMonate = heute.getMonthValue() - geburtsDatum.getMonthValue();
+
 		kalender.addAll(getLebenskalender(aktuellesAlterJahre, aktuellesAlterMonate, maxLebensalter));
 		kalender.add(getFuss(aktuellesAlterJahre, isMann, maxLebensalter));
 
@@ -118,17 +136,14 @@ public final class Lebenskalender {
 		return maxLebensalter;
 	}
 
-	private static String getTitel(int alterJahre, int alterMonate) {
+	private static String getTitel(String gebDatum, String heute) {
 		StringBuffer b = new StringBuffer();
 		b.append(TABULATOR);
 		b.append("                   Lebenskalender");
 		b.append(NEUE_ZEILE);
 		b.append(TABULATOR);
-		b.append("  Berechne von aktuellem Alter " + alterJahre + " Jahren und " + alterMonate + " Monate");
+		b.append("  Verwende Geburtsdatum " + gebDatum + " am " + heute);
 		b.append(NEUE_ZEILE);
-		b.append("Jahre");
-		b.append(TABULATOR);
-		b.append("                   Wochen");
 		return b.toString();
 	}
 
@@ -138,10 +153,10 @@ public final class Lebenskalender {
 		b.append("  Lebenserwartung in Deutschland:");
 		b.append(NEUE_ZEILE);
 		b.append(TABULATOR);
-		b.append("  Männer 77 Jahre 9 Monate");
+		b.append("  Männer " + MAX_LEBENSERWARTUNG_JAHRE_MANN + " Jahre " + MAX_LEBENSERWARTUNG_MONATE_MANN + " Monate");
 		b.append(NEUE_ZEILE);
 		b.append(TABULATOR);
-		b.append("  Frauen 82 Jahre 10 Monate");
+		b.append("  Frauen " + MAX_LEBENSERWARTUNG_JAHRE_FRAU + " Jahre " + MAX_LEBENSERWARTUNG_MONATE_FRAU + " Monate");
 
 		b.append(NEUE_ZEILE);
 		b.append(TABULATOR);
@@ -177,5 +192,4 @@ public final class Lebenskalender {
 		}
 		document.close();
 	}
-
 }

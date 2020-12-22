@@ -57,8 +57,8 @@ public final class Lebenskalender {
 	 */
 	public static void main(String[] args) throws Exception {
 		if (args == null || args.length != 2) {
-			System.out.println(
-					"Programm Aufruf [mit Geburtsdatum in der Form dd.mm.yyyy] [ob Mann ist dann true]  Z.b für einen Mann der am 1.11.1970 geboren ist 01.11.1970 true");
+			System.out.println("Programm Aufruf [mit Geburtsdatum in der Form dd.mm.yyyy] [ob Mann ist dann true]  "
+					+ "Z.b für einen Mann der am 1.11.1970 geboren ist 01.11.1970 true oder für eine Frau die am 7.2.2020 geboren ist 07.02.2020 false");
 			return;
 		}
 		String gebDatum = args[0];

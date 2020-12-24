@@ -44,6 +44,31 @@ public final class Lebenskalender {
 	private static final int WOCHEN_PRO_MONAT = 4;
 
 	/**
+	 * Eine Zeile die das Darstellt: Jahr Wochen
+	 * 
+	 * <pre>
+	0        XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+	1        XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+	2        ....................................................
+	3        ....................................................
+	4        ....................................................
+	5        ....................................................
+	6        ....................................................
+	7        ....................................................
+	8        ....................................................
+	9        ....................................................
+	10        ....................................................
+	 * </pre>
+	 * 
+	 * @author Thomas Wenzlaff
+	 *
+	 */
+	private class Zeile {
+
+		private String inhalt;
+	}
+
+	/**
 	 * Aufruf der Klasse: [mit Geburtsdatum in der Form dd.mm.yyyy] [ob Mann ist
 	 * dann true]
 	 * 
@@ -79,6 +104,13 @@ public final class Lebenskalender {
 
 		LocalDate geburtsDatum = LocalDate.parse(gebDatum, deFormatter);
 
+		if (geburtsDatum.isAfter(heute)) {
+			throw new IllegalArgumentException("Das eingegebene Geburtsdatum " + gebDatum + " liegt in der Zukunft. Es muss in der Vergangenheit liegen");
+		}
+		if (geburtsDatum.isEqual(heute)) {
+			throw new IllegalArgumentException("Das eingegebene Geburtsdatum ist der gleiche jetzt. Es muss in der Vergangenheit liegen.");
+		}
+
 		int aktuellesAlterJahre = heute.getYear() - geburtsDatum.getYear();
 		int aktuellesAlterMonate = heute.getMonthValue() - geburtsDatum.getMonthValue();
 
@@ -91,22 +123,24 @@ public final class Lebenskalender {
 
 	private static List<String> getLebenskalender(int aktuellesAlterJahre, int aktuellesAlterMonate, int maxLebensalter) {
 
-		List<String> kalender = new ArrayList<String>();
+		System.out.println("Aktuelles Alter in Jahren: " + aktuellesAlterJahre + " und Monate: " + aktuellesAlterJahre);
+
+		List<String> kalender = new ArrayList<>();
 
 		for (int i = 0; i < maxLebensalter; i++) {
-			String jahr = "";
+			String eineZeile = "";
 			if (i <= 9) {
-				jahr = " " + i + TABULATOR;
+				eineZeile = " " + i + TABULATOR;
 			} else {
-				jahr = i + TABULATOR;
+				eineZeile = i + TABULATOR;
 			}
 
 			for (int j = 0; j < MAX_WOCHEN; j++) {
 
 				if (i <= aktuellesAlterJahre) {
-					jahr += WOCHEN_ZEICHEN_VERGANGEN;
+					eineZeile += WOCHEN_ZEICHEN_VERGANGEN;
 				} else {
-					jahr += WOCHEN_ZEICHEN_ZUKUNFT;
+					eineZeile += WOCHEN_ZEICHEN_ZUKUNFT;
 				}
 
 				if (i == aktuellesAlterJahre + 1) {
@@ -117,10 +151,10 @@ public final class Lebenskalender {
 					for (int k = 0; k < MAX_WOCHEN - aktuellesAlterMonate * WOCHEN_PRO_MONAT; k++) {
 						jahrWochen += WOCHEN_ZEICHEN_ZUKUNFT;
 					}
-					jahr = jahrWochen;
+					eineZeile = jahrWochen;
 				}
 			}
-			kalender.add(jahr);
+			kalender.add(eineZeile);
 		}
 		return kalender;
 	}

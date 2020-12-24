@@ -1,18 +1,12 @@
 package de.wenzlaff.lebenskalender;
 
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Font;
-import com.itextpdf.text.PageSize;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.pdf.PdfWriter;
 
 /**
  * Erzeugt einen Lebenskalender auf System.out und erzeugt eine PDF mit dem
@@ -35,38 +29,9 @@ public final class Lebenskalender {
 
 	private static final String TABULATOR = "        ";
 	private static final String NEUE_ZEILE = "\n\r";
-	private static final String WOCHEN_ZEICHEN_VERGANGEN = "X";
-	private static final String WOCHEN_ZEICHEN_ZUKUNFT = ".";
 
-	/** Die Anzahl der Wochen im Jahr. */
-	private static final int MAX_WOCHEN = 52;
 	/** Wochen pro Monat, abgerundet. */
 	private static final int WOCHEN_PRO_MONAT = 4;
-
-	/**
-	 * Eine Zeile die das Darstellt: Jahr Wochen
-	 * 
-	 * <pre>
-	0        XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-	1        XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-	2        ....................................................
-	3        ....................................................
-	4        ....................................................
-	5        ....................................................
-	6        ....................................................
-	7        ....................................................
-	8        ....................................................
-	9        ....................................................
-	10        ....................................................
-	 * </pre>
-	 * 
-	 * @author Thomas Wenzlaff
-	 *
-	 */
-	private class Zeile {
-
-		private String inhalt;
-	}
 
 	/**
 	 * Aufruf der Klasse: [mit Geburtsdatum in der Form dd.mm.yyyy] [ob Mann ist
@@ -94,16 +59,10 @@ public final class Lebenskalender {
 
 	public static void generate(String gebDatum, boolean isMann) throws DocumentException, FileNotFoundException {
 
-		int maxLebensalter = getMaxLebensalter(isMann);
-
 		DateTimeFormatter deFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-		LocalDate heute = LocalDate.now();
-
-		List<String> kalender = new ArrayList<>();
-		kalender.add(getTitel(gebDatum, heute.format(deFormatter).toString()));
-
 		LocalDate geburtsDatum = LocalDate.parse(gebDatum, deFormatter);
 
+		LocalDate heute = LocalDate.now();
 		if (geburtsDatum.isAfter(heute)) {
 			throw new IllegalArgumentException("Das eingegebene Geburtsdatum " + gebDatum + " liegt in der Zukunft. Es muss in der Vergangenheit liegen");
 		}
@@ -112,50 +71,36 @@ public final class Lebenskalender {
 		}
 
 		int aktuellesAlterJahre = heute.getYear() - geburtsDatum.getYear();
-		int aktuellesAlterMonate = heute.getMonthValue() - geburtsDatum.getMonthValue();
+		int aktuellesAlterWochen = (heute.getMonthValue() - geburtsDatum.getMonthValue()) * WOCHEN_PRO_MONAT;
+		int maxLebensalter = getMaxLebensalter(isMann);
 
-		kalender.addAll(getLebenskalender(aktuellesAlterJahre, aktuellesAlterMonate, maxLebensalter));
+		List<String> kalender = new ArrayList<>();
+		kalender.add(getTitel(gebDatum, heute.format(deFormatter).toString(), aktuellesAlterJahre));
+		kalender.addAll(getLebenskalender(aktuellesAlterJahre, aktuellesAlterWochen, maxLebensalter));
 		kalender.add(getFuss(aktuellesAlterJahre, isMann, maxLebensalter));
 
-		printSystemOut(kalender);
-		printPdfDokument(kalender);
+		Druck.printSystemOut(kalender);
+		Druck.printPdfDokument(kalender);
 	}
 
-	private static List<String> getLebenskalender(int aktuellesAlterJahre, int aktuellesAlterMonate, int maxLebensalter) {
-
-		System.out.println("Aktuelles Alter in Jahren: " + aktuellesAlterJahre + " und Monate: " + aktuellesAlterJahre);
+	private static List<String> getLebenskalender(int aktuellesAlterJahre, int aktuellesAlterWochen, int maxLebensalter) {
 
 		List<String> kalender = new ArrayList<>();
 
-		for (int i = 0; i < maxLebensalter; i++) {
-			String eineZeile = "";
-			if (i <= 9) {
-				eineZeile = " " + i + TABULATOR;
-			} else {
-				eineZeile = i + TABULATOR;
-			}
-
-			for (int j = 0; j < MAX_WOCHEN; j++) {
-
-				if (i <= aktuellesAlterJahre) {
-					eineZeile += WOCHEN_ZEICHEN_VERGANGEN;
-				} else {
-					eineZeile += WOCHEN_ZEICHEN_ZUKUNFT;
-				}
-
-				if (i == aktuellesAlterJahre + 1) {
-					String jahrWochen = i + TABULATOR;
-					for (int k = 0; k < aktuellesAlterMonate * WOCHEN_PRO_MONAT; k++) {
-						jahrWochen += WOCHEN_ZEICHEN_VERGANGEN;
-					}
-					for (int k = 0; k < MAX_WOCHEN - aktuellesAlterMonate * WOCHEN_PRO_MONAT; k++) {
-						jahrWochen += WOCHEN_ZEICHEN_ZUKUNFT;
-					}
-					eineZeile = jahrWochen;
-				}
-			}
-			kalender.add(eineZeile);
+		int jahr = 0;
+		// 1. volle Zeile für jedes volle Jahr
+		for (; jahr < aktuellesAlterJahre; jahr++) {
+			kalender.add(Zeile.getVolleZeile(jahr));
 		}
+
+		// 2. rest Monate
+		kalender.add(new Zeile(jahr++, ++aktuellesAlterWochen).toString());
+
+		// 3. auffüllen mit leer Zeilen
+		for (; jahr < maxLebensalter + 1; jahr++) {
+			kalender.add(Zeile.getLeerZeile(jahr));
+		}
+
 		return kalender;
 	}
 
@@ -170,19 +115,28 @@ public final class Lebenskalender {
 		return maxLebensalter;
 	}
 
-	private static String getTitel(String gebDatum, String heute) {
+	private static String getGeschlecht(boolean isMann) {
+		if (isMann) {
+			return "Mann";
+		} else {
+			return "Frau";
+		}
+	}
+
+	private static String getTitel(String gebDatum, String heute, int aktuellesAlterJahre) {
 		StringBuffer b = new StringBuffer();
 		b.append(TABULATOR);
 		b.append("                   Lebenskalender");
 		b.append(NEUE_ZEILE);
 		b.append(TABULATOR);
-		b.append("  Verwende Geburtsdatum " + gebDatum + " am " + heute);
+		b.append("Geburtsdatum " + gebDatum + " Alter " + aktuellesAlterJahre + " Jahre am " + heute);
 		b.append(NEUE_ZEILE);
 		return b.toString();
 	}
 
 	private static String getFuss(int alterJahre, boolean isMann, int maxLebensalter) {
 		StringBuffer b = new StringBuffer();
+		b.append(NEUE_ZEILE);
 		b.append(TABULATOR);
 		b.append("  Lebenserwartung in Deutschland:");
 		b.append(NEUE_ZEILE);
@@ -196,34 +150,5 @@ public final class Lebenskalender {
 		b.append(TABULATOR);
 		b.append("  Statistisch also noch: " + (maxLebensalter - alterJahre + 1) + " Jahre als " + getGeschlecht(isMann) + " zu leben!");
 		return b.toString();
-	}
-
-	private static String getGeschlecht(boolean isMann) {
-		if (isMann) {
-			return "Mann";
-		} else {
-			return "Frau";
-		}
-	}
-
-	private static void printSystemOut(List<String> kalender) {
-		for (String woche : kalender) {
-			System.out.println(woche);
-		}
-	}
-
-	private static void printPdfDokument(List<String> kalender) throws DocumentException, FileNotFoundException {
-		Document document = new Document(PageSize.A4);
-		PdfWriter.getInstance(document, new FileOutputStream("lebenskalender.pdf"));
-		document.open();
-
-		Font f = new Font();
-		f.setFamily("Courier");
-		f.setSize(10);
-
-		for (String woche : kalender) {
-			document.add(new Paragraph(woche, f));
-		}
-		document.close();
 	}
 }

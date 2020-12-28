@@ -13,10 +13,6 @@ import picocli.CommandLine;
  */
 public class LebenskalenderTest {
 
-	private static final String TEST_GEBURTS_DATUM = "01.01.1990";
-	private static final Boolean MANN = true;
-	private static final Boolean FRAU = false;
-
 	@Test
 	public void testGenerateDefault() throws Exception {
 		Lebenskalender app = new Lebenskalender();

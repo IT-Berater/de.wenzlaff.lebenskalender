@@ -1,12 +1,14 @@
 package de.wenzlaff.lebenskalender;
 
-import java.io.FileNotFoundException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
 
-import com.itextpdf.text.DocumentException;
+import picocli.CommandLine;
+import picocli.CommandLine.Command;
+import picocli.CommandLine.Option;
 
 /**
  * Erzeugt einen Lebenskalender auf System.out und erzeugt eine PDF mit dem
@@ -14,7 +16,9 @@ import com.itextpdf.text.DocumentException;
  *
  * @author Thomas Wenzlaff
  */
-public final class Lebenskalender {
+@Command(name = "Lebenskalender", mixinStandardHelpOptions = true, version = "Lebenskalender 1.0", description = "Erzeuge einen Lebenskalender als PDF", footer = {
+		"@|fg(green) Thomas Wenzlaff|@", "@|fg(red),bold http://www.wenzlaff.info|@" })
+public final class Lebenskalender implements Callable<Integer> {
 
 	// Stand 2018
 	// https://de.wikipedia.org/wiki/Lebenserwartung#Beispiel_Deutschland
@@ -33,38 +37,35 @@ public final class Lebenskalender {
 	/** Wochen pro Monat, abgerundet. */
 	private static final int WOCHEN_PRO_MONAT = 4;
 
+	@Option(names = { "-g",
+			"--geburtsdatum" }, converter = GermanLocalDateConverter.class, description = "das Geburtsdatum im Format Tag.Monat.Jahr z.B. 30.01.2021", defaultValue = "01.01.1970")
+	private static LocalDate geburtsDatum;
+
+	@Option(names = { "-m", "--mann" }, description = "Flag das angibt ob es ein Mann ist")
+	boolean isMann;
+
 	/**
-	 * Aufruf der Klasse: [mit Geburtsdatum in der Form dd.mm.yyyy] [ob Mann ist
-	 * dann true]
+	 * Aufruf der Klasse: [-g mit Geburtsdatum in der Form dd.mm.yyyy] [-m wenn es
+	 * ein Mann ist]
 	 * 
-	 * Z.b für 01.11.1970 true
+	 * Z.b für -g 01.11.1970 -m
 	 * 
 	 * für einen Mann der am 1.11.1970 geboren ist
 	 * 
-	 * @param args drei Argumente, [mit Geburtsdatum in der Form dd.mm.yyyy] [Mann
-	 *             dann true, Frau dann false]
-	 * @throws Exception bei Fehler
+	 * @param args siehe --Help
 	 */
-	public static void main(String[] args) throws Exception {
-		if (args == null || args.length != 2) {
-			System.out.println("Programm Aufruf [mit Geburtsdatum in der Form dd.mm.yyyy] [ob Mann ist dann true]  "
-					+ "Z.b für einen Mann der am 1.11.1970 geboren ist 01.11.1970 true oder für eine Frau die am 7.2.2020 geboren ist 07.02.2020 false");
-			return;
-		}
-		String gebDatum = args[0];
-		boolean isMann = Boolean.valueOf(args[1]);
+	public static void main(String[] args) {
 
-		generate(gebDatum, isMann);
+		int exitCode = new CommandLine(new Lebenskalender()).execute(args);
+		System.exit(exitCode);
 	}
 
-	public static void generate(String gebDatum, boolean isMann) throws DocumentException, FileNotFoundException {
-
-		DateTimeFormatter deFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-		LocalDate geburtsDatum = LocalDate.parse(gebDatum, deFormatter);
+	@Override
+	public Integer call() throws Exception {
 
 		LocalDate heute = LocalDate.now();
 		if (geburtsDatum.isAfter(heute)) {
-			throw new IllegalArgumentException("Das eingegebene Geburtsdatum " + gebDatum + " liegt in der Zukunft. Es muss in der Vergangenheit liegen");
+			throw new IllegalArgumentException("Das eingegebene Geburtsdatum " + geburtsDatum + " liegt in der Zukunft. Es muss in der Vergangenheit liegen");
 		}
 		if (geburtsDatum.isEqual(heute)) {
 			throw new IllegalArgumentException("Das eingegebene Geburtsdatum ist der gleiche jetzt. Es muss in der Vergangenheit liegen.");
@@ -74,13 +75,15 @@ public final class Lebenskalender {
 		int aktuellesAlterWochen = (heute.getMonthValue() - geburtsDatum.getMonthValue()) * WOCHEN_PRO_MONAT;
 		int maxLebensalter = getMaxLebensalter(isMann);
 
+		DateTimeFormatter deFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 		List<String> kalender = new ArrayList<>();
-		kalender.add(getTitel(gebDatum, heute.format(deFormatter).toString(), aktuellesAlterJahre));
+		kalender.add(getTitel(Lebenskalender.geburtsDatum.format(deFormatter), heute.format(deFormatter).toString(), aktuellesAlterJahre));
 		kalender.addAll(getLebenskalender(aktuellesAlterJahre, aktuellesAlterWochen, maxLebensalter));
 		kalender.add(getFuss(aktuellesAlterJahre, isMann, maxLebensalter));
 
 		Druck.printSystemOut(kalender);
 		Druck.printPdfDokument(kalender);
+		return 0;
 	}
 
 	private static List<String> getLebenskalender(int aktuellesAlterJahre, int aktuellesAlterWochen, int maxLebensalter) {

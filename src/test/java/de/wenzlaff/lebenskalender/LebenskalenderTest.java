@@ -1,6 +1,10 @@
 package de.wenzlaff.lebenskalender;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.junit.jupiter.api.Test;
+
+import picocli.CommandLine;
 
 /**
  * Testklasse für den Lebenskalender.
@@ -14,41 +18,38 @@ public class LebenskalenderTest {
 	private static final Boolean FRAU = false;
 
 	@Test
-	public void testGenerateMann() throws Exception {
-		Lebenskalender.generate(TEST_GEBURTS_DATUM, MANN);
+	public void testGenerateDefault() throws Exception {
+		Lebenskalender app = new Lebenskalender();
+		CommandLine cmd = new CommandLine(app);
+
+		int exitCode = cmd.execute("-g", "02.05.1960");
+		assertEquals(0, exitCode);
 	}
 
 	@Test
 	public void testGenerateFrau() throws Exception {
-		Lebenskalender.generate(TEST_GEBURTS_DATUM, FRAU);
+		Lebenskalender app = new Lebenskalender();
+		CommandLine cmd = new CommandLine(app);
+
+		int exitCode = cmd.execute("-g", "02.05.1960");
+		assertEquals(0, exitCode);
 	}
 
 	@Test
-	public void testGenerateMain() throws Exception {
-		String[] param = { TEST_GEBURTS_DATUM, "false" };
-		Lebenskalender.main(param);
+	public void testGenerateMann() throws Exception {
+		Lebenskalender app = new Lebenskalender();
+		CommandLine cmd = new CommandLine(app);
+
+		int exitCode = cmd.execute("-g", "02.05.1960", "-m");
+		assertEquals(0, exitCode);
 	}
 
 	@Test
-	public void testGenerateMainFehlerZuwenig() throws Exception {
-		String[] param = { TEST_GEBURTS_DATUM };
-		Lebenskalender.main(param);
-	}
+	public void testHilfe() throws Exception {
+		Lebenskalender app = new Lebenskalender();
+		CommandLine cmd = new CommandLine(app);
 
-	@Test
-	public void testGenerateMainFehlerZuviel() throws Exception {
-		String[] param = { TEST_GEBURTS_DATUM, "zuviel", "Parameter" };
-		Lebenskalender.main(param);
-	}
-
-	@Test
-	public void testGenerateMainFehlerNull() throws Exception {
-		String[] param = null;
-		Lebenskalender.main(param);
-	}
-
-	@Test
-	public void testGenerateMainKonst() throws Exception {
-		new Lebenskalender();
+		int exitCode = cmd.execute("--Help");
+		assertEquals(2, exitCode);
 	}
 }

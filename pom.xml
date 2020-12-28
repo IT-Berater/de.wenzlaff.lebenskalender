@@ -75,7 +75,7 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>3.0.0-M4</version>
 			</plugin>
-			<!-- 
+	<!-- 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-gpg-plugin</artifactId>
@@ -90,7 +90,7 @@
 					</execution>
 				</executions>
 			</plugin>
-			 -->
+			  -->
 			<plugin>
 				<groupId>org.sonatype.plugins</groupId>
 				<artifactId>nexus-staging-maven-plugin</artifactId>
@@ -194,6 +194,12 @@
 			<groupId>com.itextpdf</groupId>
 			<artifactId>itextpdf</artifactId>
 			<version>5.5.13.1</version>
+		</dependency>
+		<!-- CMD Tool -->
+		<dependency>
+			<groupId>info.picocli</groupId>
+			<artifactId>picocli</artifactId>
+			<version>4.5.2</version>
 		</dependency>		
 	</dependencies>
 </project>

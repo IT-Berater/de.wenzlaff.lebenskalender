@@ -3,7 +3,7 @@ language: java
 sudo: false # faster builds
 
 jdk:
-  - openjdk11
+  - openjdk
 
 dist: trusty
   
@@ -15,3 +15,4 @@ script:
 
 after_success:
 - bash <(curl -s https://codecov.io/bash)
+

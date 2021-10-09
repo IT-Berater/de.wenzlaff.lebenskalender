@@ -2,12 +2,15 @@ language: java
 
 sudo: false # faster builds
 
-jdk:
-  - openjdk
+jdk: openjdk10
 
-dist: trusty
-  
-script: 
+script:
+  - jdk_switcher use openjdk10
+  - # do stuff with OpenJDK 10
+  - wget https://github.com/sormuras/bach/raw/master/install-jdk.sh
+  - chmod +x $TRAVIS_BUILD_DIR/install-jdk.sh
+  - export JAVA_HOME=$HOME/openjdk11
+  - $TRAVIS_BUILD_DIR/install-jdk.sh -F 11 --target $JAVA_HOME
 
   - mvn clean install
   

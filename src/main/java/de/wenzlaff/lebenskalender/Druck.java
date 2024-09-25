@@ -15,10 +15,16 @@ import com.itextpdf.text.pdf.PdfWriter;
  * PDF Druck.
  * 
  * @author Thomas Wenzlaff
- *
  */
 public class Druck {
 
+	/**
+	 * Erzeugt ein PDF im A4 Format.
+	 * 
+	 * @param kalender der Kalender
+	 * @throws DocumentException     bei Dokumentenfehler
+	 * @throws FileNotFoundException bei File Fehler
+	 */
 	public static void printPdfDokument(List<String> kalender) throws DocumentException, FileNotFoundException {
 
 		Document document = new Document(PageSize.A4);
@@ -35,6 +41,11 @@ public class Druck {
 		document.close();
 	}
 
+	/**
+	 * Print System out.
+	 * 
+	 * @param kalender der Kalender
+	 */
 	public static void printSystemOut(List<String> kalender) {
 		for (String woche : kalender) {
 			System.out.println(woche);

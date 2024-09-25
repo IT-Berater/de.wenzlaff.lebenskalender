@@ -14,19 +14,19 @@
 	<distributionManagement>
 		<snapshotRepository>
 			<id>ossrh</id>
-			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+			<url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
 		</snapshotRepository>
 		<repository>
 			<id>ossrh</id>
-			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+			<url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
 		</repository>
 	</distributionManagement>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<maven.compiler.source>11</maven.compiler.source>
-		<maven.compiler.target>11</maven.compiler.target>
+		<maven.compiler.source>21</maven.compiler.source>
+		<maven.compiler.target>21</maven.compiler.target>
 	</properties>
 
 	<licenses>
@@ -57,7 +57,7 @@
 			<dependency>
 				<groupId>org.junit</groupId>
 				<artifactId>junit-bom</artifactId>
-				<version>5.8.1</version>
+				<version>5.11.0</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
@@ -65,11 +65,11 @@
 	</dependencyManagement>
 	<build>
 		<plugins>
-			<!-- Für Maven Central 
+		
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-gpg-plugin</artifactId>
-				<version>3.0.1</version>
+				<version>3.2.6</version>
 				<executions>
 					<execution>
 						<id>sign-artifacts</id>
@@ -80,7 +80,16 @@
 					</execution>
 				</executions>
 			</plugin>
-			-->
+			<plugin>
+				<groupId>org.sonatype.central</groupId>
+				<artifactId>central-publishing-maven-plugin</artifactId>
+				<version>0.6.0</version>
+				<extensions>true</extensions>
+				<configuration>
+					<publishingServerId>central</publishingServerId>
+				</configuration>
+			</plugin>
+ 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -109,7 +118,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
-				<version>2.6</version>
+				<version>3.4.1</version>
 				<configuration>
 					<archive>
 						<manifest>
@@ -117,14 +126,13 @@
 							<mainClass>de.wenzlaff.lebenskalender.Lebenskalender</mainClass>
 							<classpathPrefix>lib/</classpathPrefix>
 						</manifest>
-					</archive>
-					<exclusions>
-					</exclusions>
+					</archive>				
 				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-dependency-plugin</artifactId>
+				<version>3.7.0</version>
 				<executions>
 					<execution>
 						<id>copy-dependencies</id>
@@ -134,13 +142,7 @@
 						</goals>
 						<configuration>
 							<includeScope>runtime</includeScope>
-							<outputDirectory>${project.build.directory}/lib/</outputDirectory>
-							<failOnWarning>true</failOnWarning>
-							<outputXML>true</outputXML>
-							<ignoredDependencies>
-								<ignoredDependency>org.junit.jupiter:junit-jupiter-engine</ignoredDependency>
-								<ignoredDependency>org.junit.vintage:junit-vintage-engine</ignoredDependency>
-							</ignoredDependencies>
+							<outputDirectory>${project.build.directory}/lib/</outputDirectory>						
 						</configuration>
 					</execution>
 				</executions>
@@ -169,10 +171,7 @@
 							<goal>jar</goal>
 						</goals>
 					</execution>
-				</executions>
-				<configuration>
-					<additionalparam>-Xdoclint:none</additionalparam>
-				</configuration>
+				</executions>				
 			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
@@ -197,13 +196,13 @@
 		<dependency>
 			<groupId>com.itextpdf</groupId>
 			<artifactId>itextpdf</artifactId>
-			<version>5.5.13.1</version>
+			<version>5.5.13.2</version>
 		</dependency>
 		<!-- CMD Tool -->
 		<dependency>
 			<groupId>info.picocli</groupId>
 			<artifactId>picocli</artifactId>
-			<version>4.6.1</version>
+			<version>4.7.4</version>
 		</dependency>
 	</dependencies>
 </project>

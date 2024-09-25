@@ -18,7 +18,6 @@ package de.wenzlaff.lebenskalender;
  * </pre>
  * 
  * @author Thomas Wenzlaff
- *
  */
 public class Zeile {
 
@@ -31,15 +30,33 @@ public class Zeile {
 	private int wochen;
 	private int jahr;
 
+	/**
+	 * Zeile.
+	 * 
+	 * @param jahr   das Jahr
+	 * @param wochen die Wochen
+	 */
 	public Zeile(int jahr, int wochen) {
 		this.wochen = wochen;
 		this.jahr = jahr;
 	}
 
+	/**
+	 * Gibt eine Leere Zeile.
+	 * 
+	 * @param jahr das Jahr
+	 * @return Jahr
+	 */
 	public static String getLeerZeile(int jahr) {
 		return new Zeile(jahr, 0).toString();
 	}
 
+	/**
+	 * Lieftert eine volle Zeile.
+	 * 
+	 * @param jahr das Jahr
+	 * @return volle Zeile
+	 */
 	public static String getVolleZeile(int jahr) {
 		return new Zeile(jahr, MAX_WOCHEN).toString();
 	}
